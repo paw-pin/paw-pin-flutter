@@ -15,6 +15,10 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Backend
+
+A minimal Spring Boot backend is available under [`backend/`](backend/). It exposes a `/users` endpoint that reads data from a PostgreSQL database.
+
 ## AWS Deployment
 
 See [docs/aws_setup.md](docs/aws_setup.md) for instructions on deploying the backend and Flutter app using Amazon EKS and other free tier AWS services.
