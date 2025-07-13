@@ -4,7 +4,7 @@ metadata:
   name: backend-deployment
   namespace: paw-pin
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
       - name: backend
-        image: <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/paw-pin-backend:latest
+        image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest
         ports:
         - containerPort: 8080
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: prod
-        envFrom:
-        - secretRef:
-            name: backend-secrets
+#        env:
+#        - name: SPRING_PROFILES_ACTIVE
+#          value: prod
+#        envFrom:
+#        - secretRef:
+#            name: backend-secrets

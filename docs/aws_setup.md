@@ -13,33 +13,39 @@ This document outlines the steps to deploy the Flutter application and the Sprin
 
 1. **Create an ECR repository** for the backend container:
    ```bash
-   aws ecr create-repository --repository-name paw-pin-backend
+   aws ecr create-repository --repository-name paw-pin-backend --profile pawpin
    ```
 2. **Build and push the Docker image**:
    ```bash
-   cd backend
-   aws ecr get-login-password --region <REGION> | \
-     docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com
-   docker build -t paw-pin-backend .
-   docker tag paw-pin-backend:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/paw-pin-backend:latest
-   docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/paw-pin-backend:latest
+   cd ../backend
+   aws ecr get-login-password --region eu-central-1 --profile pawpin | \
+   docker login --username AWS --password-stdin 574067620045.dkr.ecr.eu-central-1.amazonaws.com | \
+   docker buildx build --platform linux/amd64 -t paw-pin-backend . |  \
+   docker tag paw-pin-backend:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest | \
+   docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest
    ```
-3. **Provision the EKS cluster** using `eksctl`:
+   
+[//]: # (TODO delete cluster.yaml, we will deploy EKS from AWS)
+[//]: # (3. **Provision the EKS cluster** using `eksctl`:)
+
+[//]: # (   ```bash)
+
+[//]: # (   eksctl create cluster -f infra/eks/cluster.yaml)
+
+[//]: # (   ```)
+
+1. **Deploy Kubernetes resources**:
    ```bash
-   eksctl create cluster -f infra/eks/cluster.yaml
+   kubectl apply -f ../k8s/namespace.yaml
+   # kubectl apply -f k8s/secret-example.yaml   # Edit with real values
+   kubectl apply -f ../k8s/deployment.yaml
+   kubectl apply -f ../k8s/service.yaml
    ```
-4. **Deploy Kubernetes resources**:
-   ```bash
-   kubectl apply -f k8s/namespace.yaml
-   kubectl apply -f k8s/secret-example.yaml   # Edit with real values
-   kubectl apply -f k8s/deployment.yaml
-   kubectl apply -f k8s/service.yaml
-   ```
-5. **Access the application**: obtain the service's external IP:
+2. **Access the application**: obtain the service's external IP:
    ```bash
    kubectl get svc -n paw-pin
    ```
-6. **Cleanup** when done to stay within the free tier:
+3. **Cleanup** when done to stay within the free tier:
    ```bash
    eksctl delete cluster --name paw-pin-cluster
    aws ecr delete-repository --repository-name paw-pin-backend --force
