@@ -13,6 +13,7 @@ spec:
       labels:
         app: backend
     spec:
+      serviceAccountName: default
       containers:
       - name: backend
         image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest

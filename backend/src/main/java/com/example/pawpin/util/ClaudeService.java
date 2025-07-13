@@ -25,19 +25,27 @@ public class ClaudeService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     public String callClaude(String userInput) throws Exception {
-        Map<String, Object> message = Map.of(
+
+
+        String systemPrompt = "You will get dog name, age, breed, average distance walked, average walk duration, "
+                + "and you should return walking tips and habits, and what should change in future.";
+
+        Map<String, Object> userMessage = Map.of(
                 "role", "user",
                 "content", userInput
         );
 
         String body = objectMapper.writeValueAsString(Map.of(
-                "messages", new Object[] { message },
+                "system", systemPrompt,
+                "messages", new Object[] { userMessage },   //  Only user/assistant in messages
                 "max_tokens", 1024,
                 "temperature", 0.7,
                 "top_k", 250,
                 "top_p", 0.9,
                 "anthropic_version", "bedrock-2023-05-31"
         ));
+
+
 
         InvokeModelRequest request = InvokeModelRequest.builder()
                 .modelId("eu.anthropic.claude-3-7-sonnet-20250219-v1:0")
