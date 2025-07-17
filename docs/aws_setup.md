@@ -11,18 +11,29 @@ This document outlines the steps to deploy the Flutter application and the Sprin
 
 ## Steps
 
-1. **Create an ECR repository** for the backend container:
+1. **Create an ECR repository** for the llm-service container:
    ```bash
-   aws ecr create-repository --repository-name paw-pin-backend --profile pawpin
+   aws ecr create-repository --repository-name paw-pin-llm-service --profile pawpin
    ```
 2. **Build and push the Docker image**:
    ```bash
    cd ../backend
    aws ecr get-login-password --region eu-central-1 --profile pawpin | \
    docker login --username AWS --password-stdin 574067620045.dkr.ecr.eu-central-1.amazonaws.com | \
-   docker buildx build --platform linux/amd64 -t paw-pin-backend . |  \
-   docker tag paw-pin-backend:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest | \
-   docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest
+   docker buildx build --platform linux/amd64 -t paw-pin-llm-service . |  \
+   docker tag paw-pin-llm-service:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-llm-service:latest | \
+   docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-llm-service:latest
+   ```
+
+### Build and push the gateway image
+
+   ```bash
+   cd ../gateway
+   aws ecr get-login-password --region eu-central-1 --profile pawpin | \
+   docker login --username AWS --password-stdin 574067620045.dkr.ecr.eu-central-1.amazonaws.com
+   docker buildx build --platform linux/amd64 -t paw-pin-gateway .
+   docker tag paw-pin-gateway:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
+   docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
    ```
    
 
@@ -42,7 +53,7 @@ This document outlines the steps to deploy the Flutter application and the Sprin
 3. **Cleanup** when done to stay within the free tier:
    ```bash
    eksctl delete cluster --name paw-pin-cluster
-   aws ecr delete-repository --repository-name paw-pin-backend --force
+   aws ecr delete-repository --repository-name paw-pin-llm-service --force
    ```
 
 ## CI/CD
