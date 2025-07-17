@@ -36,14 +36,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
    ```
    
-[//]: # (TODO delete cluster.yaml, we will deploy EKS from AWS)
-[//]: # (3. **Provision the EKS cluster** using `eksctl`:)
 
-[//]: # (   ```bash)
 
-[//]: # (   eksctl create cluster -f infra/eks/cluster.yaml)
-
-[//]: # (   ```)
 
 1. **Deploy Kubernetes resources**:
    ```bash
