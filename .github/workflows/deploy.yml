@@ -22,11 +22,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build backend Docker image
+      - name: Build llm-service Docker image
         working-directory: backend
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/paw-pin-backend:latest .
-          docker push ${{ steps.login-ecr.outputs.registry }}/paw-pin-backend:latest
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/paw-pin-llm-service:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/paw-pin-llm-service:latest
+
+      - name: Build gateway Docker image
+        working-directory: gateway
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/paw-pin-gateway:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/paw-pin-gateway:latest
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3

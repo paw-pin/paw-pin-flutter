@@ -12,7 +12,7 @@ Replace the contents with your backend source before building.
 
 Build the image:
 ```bash
-docker build -t paw-pin-backend .
+docker build -t paw-pin-llm-service .
 ```
 
 ## Running Locally
@@ -24,7 +24,7 @@ docker run -p 8080:8080 \
   -e SPRING_DATASOURCE_URL=jdbc:postgresql://<RDS_ENDPOINT>:5432/<DB_NAME> \
   -e SPRING_DATASOURCE_USERNAME=<DB_USER> \
   -e SPRING_DATASOURCE_PASSWORD=<DB_PASSWORD> \
-  paw-pin-backend
+  paw-pin-llm-service
 ```
 
 The API will be available at `http://localhost:8080/users`.
@@ -32,5 +32,5 @@ The API will be available at `http://localhost:8080/users`.
 Run locally:
 
 ```bash
-docker run -p 8080:8080 paw-pin-backend
+docker run -p 8080:8080 paw-pin-llm-service
 ```
