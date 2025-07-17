@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
     id 'application'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 group = 'com.example'
@@ -23,4 +24,28 @@ dependencies {
 
     // JSON handling
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+
+    // gRPC dependencies
+    implementation 'io.grpc:grpc-netty-shaded:1.63.0'
+    implementation 'io.grpc:grpc-protobuf:1.63.0'
+    implementation 'io.grpc:grpc-stub:1.63.0'
+    implementation 'com.google.protobuf:protobuf-java:3.25.3'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.25.3'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.63.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+    }
 }
