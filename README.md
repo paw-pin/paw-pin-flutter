@@ -17,7 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Backend
 
-A minimal Spring Boot backend is available under [`backend/`](backend/). It exposes a `/users` endpoint that reads data from a PostgreSQL database.
+A Spring Boot service that communicates with Anthropic Claude is available under [`backend/`](backend/). This service has been renamed **llm-service** and now exposes both its original REST API and a new gRPC interface defined in [`protos/llm.proto`](protos/llm.proto).
+
+An additional lightweight Python gateway is provided under [`gateway/`](gateway/). The gateway accepts REST requests and forwards them to `llm-service` using gRPC.
 
 ## AWS Deployment
 

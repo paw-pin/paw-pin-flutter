@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: paw-pin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
+        ports:
+        - containerPort: 8080

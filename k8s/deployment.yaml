@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: llm-service
   namespace: paw-pin
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: backend
+      matchLabels:
+        app: llm-service
   template:
     metadata:
       labels:
-        app: backend
+        app: llm-service
     spec:
       serviceAccountName: default
       containers:
-      - name: backend
+      - name: llm-service
         image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-backend:latest
         ports:
         - containerPort: 8080
+        - containerPort: 9090
 #        env:
 #        - name: SPRING_PROFILES_ACTIVE
 #          value: prod
