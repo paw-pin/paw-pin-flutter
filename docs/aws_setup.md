@@ -13,7 +13,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
 
 1. **Create an ECR repository** for the llm-service container:
    ```bash
-   aws ecr create-repository --repository-name paw-pin-llm-service --profile pawpin
+   aws ecr create-repository --repository-name paw-pin-llm-service --profile pawpin | \
+   aws ecr create-repository --repository-name paw-pin-gateway --profile pawpin
    ```
 2. **Build and push the Docker image**:
    ```bash
@@ -43,6 +44,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    ```bash
    kubectl apply -f ../k8s/namespace.yaml
    # kubectl apply -f k8s/secret-example.yaml   # Edit with real values
+   kubectl apply -f ../k8s/gateway-deployment.yaml
+   kubectl apply -f ../k8s/gateway-service.yaml
    kubectl apply -f ../k8s/deployment.yaml
    kubectl apply -f ../k8s/service.yaml
    ```

@@ -84,7 +84,7 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
 
     //final uri = Uri.parse('http://localhost:8080/claude?prompt=${Uri.encodeComponent(prompt)}');
     final uri = Uri.parse(
-      'http://10.0.2.2:8080/claude?prompt=${Uri.encodeComponent(prompt)}',
+      'http://10.0.2.2:8080/llm?prompt=${Uri.encodeComponent(prompt)}',
     );
 
     try {
