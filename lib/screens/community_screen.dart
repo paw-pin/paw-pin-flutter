@@ -1,5 +1,3 @@
-// Flutter equivalent of CommunityScreen.kt (with tabs: Events, Deals, Blog)
-
 import 'package:flutter/material.dart';
 
 class Event {

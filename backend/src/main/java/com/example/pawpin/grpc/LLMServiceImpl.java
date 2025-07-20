@@ -9,13 +9,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LLMServiceImpl extends LlmServiceGrpc.LlmServiceImplBase {
-
     private final ClaudeService claudeService;
-
     public LLMServiceImpl(ClaudeService claudeService) {
         this.claudeService = claudeService;
     }
-
     @Override
     public void getCompletion(PromptRequest request, StreamObserver<PromptResponse> responseObserver) {
         try {

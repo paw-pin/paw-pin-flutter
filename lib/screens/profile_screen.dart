@@ -1,11 +1,10 @@
-// Flutter version of CombinedProfileScreen replicating Kotlin layout and logic
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CombinedProfileScreen extends StatefulWidget {
   final bool isOwner;
@@ -71,8 +70,8 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
   String dogBreed = "Chow Chow";
   String dogSize = "Large";
   String walkType = "Solo";
-  String avgDistance = "2km";
-  String avgDuration = "35min";
+  String avgDistance = "1km";
+  String avgDuration = "25min";
 
   bool isLoading = false;
 
@@ -91,6 +90,9 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
       final response = await http.get(uri);
 
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final markdownContent = data['result'] ?? 'No content.';
+
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -100,25 +102,15 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
               width: 300,
               child: Scrollbar(
                 child: Markdown(
-                  data: response.body,
+                  data: markdownContent,
                   selectable: true,
                   shrinkWrap: true,
-                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                      .copyWith(
-                        p: const TextStyle(fontSize: 14),
-                        h1: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        h2: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        h3: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                    p: const TextStyle(fontSize: 14),
+                    h1: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    h2: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    h3: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
@@ -130,8 +122,6 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
             ],
           ),
         );
-      } else {
-        showError("Error ${response.statusCode}");
       }
     } catch (e) {
       showError(e.toString());
@@ -192,40 +182,6 @@ class _OwnerProfileTabState extends State<OwnerProfileTab> {
     );
   }
 }
-
-// class OwnerProfileTab extends StatelessWidget {
-//   const OwnerProfileTab({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView(
-//       padding: const EdgeInsets.all(16),
-//       children: [
-//         CircleAvatar(radius: 75, backgroundColor: Colors.grey[300]),
-//         const SizedBox(height: 12),
-//         const Text("John Doe", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-//         const Text("john.doe@example.com", style: TextStyle(fontSize: 14)),
-//         const Divider(height: 32),
-//         ElevatedButton(
-//           onPressed: () {context.go('/');},
-//           style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-//           child: const Text("Logout", style: TextStyle(color: Colors.white)),
-//         ),
-//         const Divider(height: 32),
-//         const ProfileInfoItem("Member Since", "📅 January 2023"),
-//         const ProfileInfoItem("Dog Name", "🐶 Luna"),
-//         const ProfileInfoItem("Walks Completed", "👟 128"),
-//         const ProfileInfoItem("Average Rating", "⭐ 4.9"),
-//         const ProfileInfoItem("Average Distance Walked", "3.1 km"),
-//         const ProfileInfoItem("Average Walk Duration", "35 min"),
-//         const EditableProfileInfoItem("Walk Type", "Solo"),
-//         const EditableProfileInfoItem("Dog Breed", "Golden Retriever"),
-//         const EditableProfileInfoItem("Dog Size", "Large"),
-//         const SizedBox(height: 24)
-//       ],
-//     );
-//   }
-// }
 
 class WalkerProfileTab extends StatelessWidget {
   const WalkerProfileTab({super.key});

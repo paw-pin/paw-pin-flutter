@@ -17,9 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ClaudeService {
-
     private final BedrockRuntimeClient client = BedrockRuntimeClient.builder()
-            .region(Region.EU_CENTRAL_1) // or whatever region Claude is deployed in
+            .region(Region.EU_CENTRAL_1)
             .credentialsProvider(DefaultCredentialsProvider.create()) // ProfileCredentialsProvider.create("pawpin")
             .build();
 
@@ -27,9 +26,8 @@ public class ClaudeService {
 
     public String callClaude(String userInput) throws Exception {
 
-
         String systemPrompt = "You will get dog name, age, breed, average distance walked, average walk duration, "
-                + "and you should return walking tips and habits, and what should change in future.";
+                + "and you should return walking tips and habits, and what should change in the future.";
 
         Map<String, Object> userMessage = Map.of(
                 "role", "user",
@@ -45,8 +43,6 @@ public class ClaudeService {
                 "top_p", 0.9,
                 "anthropic_version", "bedrock-2023-05-31"
         ));
-
-
 
         InvokeModelRequest request = InvokeModelRequest.builder()
                 .modelId("eu.anthropic.claude-3-7-sonnet-20250219-v1:0")

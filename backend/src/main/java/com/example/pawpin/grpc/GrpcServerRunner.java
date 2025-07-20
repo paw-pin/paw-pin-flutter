@@ -7,10 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GrpcServerRunner {
-
     private final LLMServiceImpl llmService;
     private Server server;
-
     public GrpcServerRunner(LLMServiceImpl llmService) {
         this.llmService = llmService;
     }

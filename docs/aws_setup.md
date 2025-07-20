@@ -16,7 +16,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    aws ecr create-repository --repository-name paw-pin-llm-service --profile pawpin | \
    aws ecr create-repository --repository-name paw-pin-gateway --profile pawpin
    ```
-2. **Build and push the Docker image**:
+   
+2. **Build and push the llm-service Docker image**:
    ```bash
    cd ../backend
    aws ecr get-login-password --region eu-central-1 --profile pawpin | \
@@ -25,9 +26,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    docker tag paw-pin-llm-service:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-llm-service:latest | \
    docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-llm-service:latest
    ```
-
-### Build and push the gateway image
-
+   
+3. **Build and push the grpc gateway image**:
    ```bash
    cd ../gateway
    aws ecr get-login-password --region eu-central-1 --profile pawpin | \
@@ -36,11 +36,8 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    docker tag paw-pin-gateway:latest 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
    docker push 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-gateway:latest
    ```
-   
 
-
-
-1. **Deploy Kubernetes resources**:
+4. **Deploy Kubernetes resources**:
    ```bash
    kubectl apply -f ../k8s/namespace.yaml
    # kubectl apply -f k8s/secret-example.yaml   # Edit with real values
@@ -49,17 +46,11 @@ This document outlines the steps to deploy the Flutter application and the Sprin
    kubectl apply -f ../k8s/deployment.yaml
    kubectl apply -f ../k8s/service.yaml
    ```
-2. **Access the application**: obtain the service's external IP:
+5. **Access the application**: obtain the service's external IP:
    ```bash
    kubectl get svc -n paw-pin
    ```
-3. **Cleanup** when done to stay within the free tier:
-   ```bash
-   eksctl delete cluster --name paw-pin-cluster
-   aws ecr delete-repository --repository-name paw-pin-llm-service --force
-   ```
 
 ## CI/CD
-
 A sample GitHub Actions workflow is located in `.github/workflows/deploy.yml`. It builds the Docker image, pushes it to ECR, and deploys to EKS on every push to `main`.
 
