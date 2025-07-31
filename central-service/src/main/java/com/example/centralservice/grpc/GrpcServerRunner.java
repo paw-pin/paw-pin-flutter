@@ -18,10 +18,16 @@ public class GrpcServerRunner {
                 .build()
                 .start();
 
+        System.out.println("gRPC server started on port 9092");
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down gRPC server...");
             if (server != null) {
                 server.shutdown();
             }
         }));
+
+        // BLOCK MAIN THREAD
+        server.awaitTermination();
     }
 }

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 public class GrpcServerRunner {
     private final RdsServiceImpl rdsService;
     private Server server;
-    public GrpcServerRunner(RdsServiceImpl rdsService) { this.rdsService = rdsService; }
+
+    public GrpcServerRunner(RdsServiceImpl rdsService) {
+        this.rdsService = rdsService;
+    }
 
     @PostConstruct
     public void start() throws Exception {
@@ -18,10 +21,16 @@ public class GrpcServerRunner {
                 .build()
                 .start();
 
+        System.out.println("gRPC server started on port 9091");
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (server != null) {
+                System.out.println("Shutting down gRPC server...");
                 server.shutdown();
             }
         }));
+
+        // BLOCK MAIN THREAD
+        server.awaitTermination();
     }
 }
