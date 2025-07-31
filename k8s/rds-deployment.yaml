@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rds-service
+  namespace: paw-pin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rds-service
+  template:
+    metadata:
+      labels:
+        app: rds-service
+    spec:
+      containers:
+      - name: rds-service
+        image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-rds-service:latest
+        ports:
+        - containerPort: 8081
+        - containerPort: 9091

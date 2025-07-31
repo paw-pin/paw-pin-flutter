@@ -1,0 +1,40 @@
+/target
+# === Gradle ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# === VS Code ===
+.vscode/
+
+# === System files ===
+.DS_Store
+Thumbs.db
+
+# === Logs and Temp ===
+*.log
+*.tmp
+*.swp
+
+# === OS/Editor backups ===
+*.bak
+*~
+*.orig
+
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+
+# === Test reports ===
+test-results/
+test-output/

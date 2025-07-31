@@ -1,0 +1,20 @@
+syntax = "proto3";
+package rds;
+
+import "google/protobuf/empty.proto";
+
+message ItemId {
+  int64 id = 1;
+}
+
+message Item {
+  int64 id = 1;
+  string name = 2;
+}
+
+service RdsService {
+  rpc CreateItem(Item) returns (Item);
+  rpc GetItem(ItemId) returns (Item);
+  rpc UpdateItem(Item) returns (Item);
+  rpc DeleteItem(ItemId) returns (google.protobuf.Empty);
+}
