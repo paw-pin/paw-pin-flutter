@@ -1,0 +1,14 @@
+syntax = "proto3";
+package central;
+
+import "llm.proto";
+import "rds.proto";
+import "google/protobuf/empty.proto";
+
+service CentralService {
+  rpc GetCompletion(llm.PromptRequest) returns (llm.PromptResponse);
+  rpc CreateItem(rds.Item) returns (rds.Item);
+  rpc GetItem(rds.ItemId) returns (rds.Item);
+  rpc UpdateItem(rds.Item) returns (rds.Item);
+  rpc DeleteItem(rds.ItemId) returns (google.protobuf.Empty);
+}

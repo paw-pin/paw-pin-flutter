@@ -18,8 +18,10 @@ samples, guidance on mobile development, and a full API reference.
 ## Backend
 
 A Spring Boot service that communicates with Anthropic Claude is available under [`backend/`](backend/). This service has been renamed **llm-service** and now exposes both its original REST API and a new gRPC interface defined in [`protos/llm.proto`](protos/llm.proto).
+A second microservice **rds-service** exposes gRPC CRUD operations for Items stored in PostgreSQL.
+A coordinating **central-service** aggregates llm and rds features into one gRPC API.
 
-An additional lightweight Python gateway is provided under [`gateway/`](gateway/). The gateway accepts REST requests and forwards them to `llm-service` using gRPC.
+An additional lightweight Python gateway is provided under [`gateway/`](gateway/). The gateway now forwards REST requests to a new **central-service**, which delegates calls to the existing **llm-service** and the new **rds-service**.
 
 ## AWS Deployment
 
