@@ -3,10 +3,13 @@ package com.example.centralservice.grpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GrpcServerRunner {
+    private static final Logger log = LoggerFactory.getLogger(GrpcServerRunner.class);
     private final CentralServiceImpl centralService;
     private Server server;
     public GrpcServerRunner(CentralServiceImpl centralService) { this.centralService = centralService; }
@@ -18,7 +21,7 @@ public class GrpcServerRunner {
                 .build()
                 .start();
 
-        System.out.println("gRPC server started on port 9092");
+        log.info("gRPC server started on port 9092");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutting down gRPC server...");
