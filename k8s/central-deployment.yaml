@@ -16,5 +16,6 @@ spec:
       containers:
       - name: central-service
         image: 574067620045.dkr.ecr.eu-central-1.amazonaws.com/paw-pin-central-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 9092
