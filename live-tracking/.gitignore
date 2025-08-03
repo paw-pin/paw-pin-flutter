@@ -1,3 +1,3 @@
 /venv
-./target
-./out
+/target
+/out
