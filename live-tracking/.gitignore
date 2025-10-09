@@ -1,0 +1,16 @@
+# Build output
+target/
+
+# Dependency lock file (optional for libraries)
+# Cargo.lock
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Backup and temp files
+*.swp
+*~
